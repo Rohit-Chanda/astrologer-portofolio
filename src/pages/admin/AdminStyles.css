@@ -1,0 +1,142 @@
+.admin-login-wrapper {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  padding: 20px;
+}
+
+.admin-login-card {
+  background: white;
+  padding: 40px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+}
+
+.admin-login-title {
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.admin-login-subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  font-size: 0.9rem;
+}
+
+.admin-login-form {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(212, 145, 94, 0.2);
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.admin-login-error {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+/* Dashboard Specific Styles */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.admin-posts-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-posts-table th, 
+.admin-posts-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.admin-posts-table th {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 500;
+}
+
+.admin-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-right: 8px;
+}
+
+.btn-edit {
+  color: var(--primary);
+  background-color: rgba(58, 90, 140, 0.1);
+}
+
+.btn-delete {
+  color: #dc2626;
+  background-color: #fee2e2;
+}
+
+/* Post Editor Styles */
+.editor-quill {
+  height: 400px;
+  margin-bottom: 60px;
+  background: white;
+}
+
+.quill-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}

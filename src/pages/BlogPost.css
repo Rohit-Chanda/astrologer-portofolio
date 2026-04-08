@@ -1,0 +1,149 @@
+.post-header-bg {
+  background-color: var(--dark-bg);
+  color: var(--surface);
+  padding: 60px 0 80px 0;
+  text-align: center;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--accent);
+  margin-bottom: 24px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.back-link:hover {
+  color: var(--surface);
+}
+
+.post-meta-top {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.post-category {
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.post-date {
+  color: #B0BACC;
+}
+
+.post-title-main {
+  font-size: 3rem;
+  color: var(--surface);
+  line-height: 1.2;
+  margin-bottom: 16px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post-author {
+  color: #B0BACC;
+  font-style: italic;
+}
+
+.post-container {
+  max-width: 800px;
+  margin: -40px auto 80px auto;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 40px;
+  position: relative;
+  z-index: 10;
+}
+
+.post-hero-image {
+  width: 100%;
+  aspect-ratio: 21/9;
+  background: linear-gradient(45deg, var(--primary-light), var(--primary));
+  border-radius: var(--radius-sm);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.post-content-body {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  line-height: 1.8;
+}
+
+.post-content-body p {
+  margin-bottom: 16px;
+}
+
+.post-content-body h3 {
+  color: var(--primary);
+  font-size: 1.7rem;
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.post-content-body ul {
+  list-style-type: disc;
+  padding-left: 24px;
+  margin-bottom: 24px;
+}
+
+.post-content-body li {
+  margin-bottom: 8px;
+}
+
+.post-footer {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.post-share {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.post-share p {
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .post-title-main {
+    font-size: 2rem;
+  }
+  
+  .post-container {
+    padding: 24px;
+    margin-top: -20px;
+  }
+
+  .post-share {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

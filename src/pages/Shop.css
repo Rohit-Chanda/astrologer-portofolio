@@ -1,0 +1,98 @@
+/* Trust Banner */
+.trust-banner {
+  background-color: var(--secondary);
+  color: white;
+  padding: 20px 0;
+}
+
+.trust-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+.trust-icon {
+  font-size: 1.5rem;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 32px;
+}
+
+.product-card {
+  background: white;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal);
+  border: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.product-image-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.stone-shape {
+  width: 40%;
+  height: 40%;
+  background: rgba(255,255,255,0.3);
+  border: 2px solid rgba(255,255,255,0.8);
+  border-radius: 20% 50%;
+  transform: rotate(45deg);
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.5);
+}
+
+.product-content {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title {
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.product-price {
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+}
+
+.product-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+  flex: 1;
+}
+
+.btn-full {
+  width: 100%;
+  display: block;
+}

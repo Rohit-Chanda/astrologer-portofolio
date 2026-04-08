@@ -1,0 +1,158 @@
+/* About Hero */
+.about-hero {
+  background-color: var(--dark-bg);
+  color: var(--surface);
+  padding: 80px 0;
+  text-align: center;
+  border-bottom: 4px solid var(--accent);
+}
+
+.about-hero-title {
+  color: var(--surface);
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.about-hero-subtitle {
+  color: #B0BACC;
+  font-size: 1.2rem;
+}
+
+/* Bio Section */
+.bio-container {
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+
+.bio-image-wrapper {
+  flex: 1;
+  max-width: 450px;
+}
+
+.bio-image-placeholder {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background-color: #E2E8F0;
+  border-radius: var(--radius-md);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 8px solid white;
+  box-shadow: var(--shadow-lg);
+}
+
+.placeholder-text {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.bio-content {
+  flex: 1.5;
+}
+
+.bio-heading {
+  font-size: 2.2rem;
+  color: var(--primary);
+  margin-bottom: 24px;
+}
+
+.bio-text {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+.stats-container {
+  display: flex;
+  gap: 32px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.stat-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-number {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--accent);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-weight: 500;
+  color: var(--primary);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+/* Timeline */
+.timeline {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20px;
+  width: 2px;
+  background-color: rgba(0,0,0,0.1);
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 60px;
+  margin-bottom: 40px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-year {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 42px;
+  height: 42px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 0 0 4px var(--bg-color);
+}
+
+.timeline-content h3 {
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+  padding-top: 8px;
+}
+
+.timeline-content p {
+  color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .bio-container {
+    flex-direction: column;
+  }
+}

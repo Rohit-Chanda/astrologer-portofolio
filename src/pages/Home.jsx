@@ -1,7 +1,22 @@
+import { useRef } from 'react';
 import './Home.css';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+  const sliderRef = useRef(null);
+
+  const scrollLeft = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: -332, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: 332, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -24,10 +39,18 @@ const Home = () => {
       {/* Services Section */}
       <section id="services" className="section bg-light">
         <div className="container">
-          <h2 className="section-title">Celestial Services</h2>
-          <p className="section-subtitle">Comprehensive astrological solutions tailored to guide you in every phase of life.</p>
+          <div className="services-header">
+            <div className="services-header-text">
+              <h2 className="section-title slider-section-title">Celestial Services</h2>
+              <p className="section-subtitle slider-section-subtitle">Comprehensive astrological solutions tailored to guide you in every phase of life.</p>
+            </div>
+            <div className="slider-controls">
+              <button className="slider-btn" onClick={scrollLeft} aria-label="Previous">&larr;</button>
+              <button className="slider-btn" onClick={scrollRight} aria-label="Next">&rarr;</button>
+            </div>
+          </div>
           
-          <div className="services-grid">
+          <div className="services-slider" ref={sliderRef}>
             {/* Service 1 */}
             <div className="service-card">
               <div className="service-icon">✨</div>
@@ -51,6 +74,24 @@ const Home = () => {
               <div className="service-icon">💼</div>
               <h3 className="service-title">Career Guidance</h3>
               <p className="service-desc">Strategic advice on career choices, business ventures, and auspicious timings for maximum success.</p>
+            </div>
+            {/* Service 5 */}
+            <div className="service-card">
+              <div className="service-icon">💍</div>
+              <h3 className="service-title">Marriage Timing</h3>
+              <p className="service-desc">Find the most auspicious muhurat for your wedding to ensure long-lasting happiness.</p>
+            </div>
+            {/* Service 6 */}
+            <div className="service-card">
+              <div className="service-icon">👁️</div>
+              <h3 className="service-title">Face Reading</h3>
+              <p className="service-desc">Ancient physiognomy techniques to reveal hidden personality traits and life path.</p>
+            </div>
+            {/* Service 7 */}
+            <div className="service-card">
+              <div className="service-icon">🔢</div>
+              <h3 className="service-title">Numerology</h3>
+              <p className="service-desc">Understand the impact of numbers on your destiny and align your name for success.</p>
             </div>
           </div>
         </div>

@@ -1,0 +1,47 @@
+# Dynamic Shop Implementation Plan
+
+The objective is to refactor the "Sacred Gemstones" Shop page so that products are fully dynamic. The admin will be able to add, edit, and delete gemstones directly from the Dashboard.
+
+## Proposed Changes
+
+### 1. Database Schema (Firestore)
+Create a new `products` collection with the following document structure:
+- `name`: String (e.g. "Natural Ruby (Manik)")
+- `price`: String (e.g. "₹25,000+")
+- `desc`: String (e.g. "Boosts confidence...")
+- `image`: String (Base64 encoded string, using the same free local upload technique we just built!)
+- `createdAt`: Timestamp
+
+---
+
+### 2. Admin Dashboard Features (`src/pages/admin/`)
+
+#### [MODIFY] [Dashboard.jsx](file:///f:/Rohit/Project/src/pages/admin/Dashboard.jsx)
+- Update the tab navigation to include a 3rd tab: **"Manage Shop"**.
+- Fetch and display a table of all `products`.
+- Add functionality to delete products and an "Add New Product" link.
+
+#### [NEW] [ProductEditor.jsx](file:///f:/Rohit/Project/src/pages/admin/ProductEditor.jsx)
+- A brand new editor specialized for Gemstones.
+- Fields: **Name**, **Price**, **Description**, and **Upload Image** (using the local file upload -> Base64 compression script to save on storage bills).
+
+---
+
+### 3. Frontend App Updates
+
+#### [MODIFY] [App.jsx](file:///f:/Rohit/Project/src/App.jsx)
+- Add new protected routes:
+  - `/admin/create-product`
+  - `/admin/edit-product/:id`
+
+#### [MODIFY] [Shop.jsx](file:///f:/Rohit/Project/src/pages/Shop.jsx)
+- Delete the hardcoded `const products = [...]` array.
+- Implement Firestore fetching logic to load the real `products` dynamically.
+- Update the JSX to render the uploaded `product.image` instead of the old colored CSS placeholder blocks.
+- Wrap the products grid in a loading state.
+
+## User Review Required
+> [!IMPORTANT]  
+> Are there any other details you want to capture for a product aside from Name, Price, Description, and the Image? For instance, do you want a specific "Contact Link" per product, or is the single WhatsApp link perfectly fine for all gem inquiries?
+
+Please review this plan. If you approve, I will begin execution immediately!

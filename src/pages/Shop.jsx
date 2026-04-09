@@ -1,16 +1,35 @@
+import { useState, useEffect } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
 import './Shop.css';
 
 const Shop = () => {
-  const products = [
-    { id: 1, name: "Natural Ruby (Manik)", price: "₹25,000+", desc: "Boosts confidence, vitality, and leadership qualities. Associated with the Sun.", color: "#E0245E" },
-    { id: 2, name: "Columbian Emerald (Panna)", price: "₹35,000+", desc: "Improves communication, intellect, and business success. Associated with Mercury.", color: "#10B981" },
-    { id: 3, name: "Blue Sapphire (Neelam)", price: "₹40,000+", desc: "Brings rapid success, wealth, and clears life obstacles. Associated with Saturn.", color: "#1D4ED8" },
-    { id: 4, name: "Yellow Sapphire (Pukhraj)", price: "₹30,000+", desc: "Attracts prosperity, knowledge, and marital bliss. Associated with Jupiter.", color: "#FBBF24" },
-    { id: 5, name: "South Sea Pearl (Moti)", price: "₹15,000+", desc: "Calms the mind, controls anger, and brings emotional balance. Associated with the Moon.", color: "#F3F4F6" },
-    { id: 6, name: "Red Coral (Moonga)", price: "₹10,000+", desc: "Provides courage, energy, and real estate success. Associated with Mars.", color: "#DC2626" },
-    { id: 7, name: "Hessonite (Gomed)", price: "₹8,000+", desc: "Protects against hidden enemies and helps in litigation. Associated with Rahu.", color: "#B45309" },
-    { id: 8, name: "Cat's Eye (Lehsuniya)", price: "₹9,000+", desc: "Enhances intuition and protects from sudden misfortunes. Associated with Ketu.", color: "#4B5563" }
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const snapshot = await getDocs(collection(db, "products"));
+      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      
+      // Sort by creation date
+      items.sort((a, b) => {
+        const dateA = a.createdAt ? a.createdAt.toMillis() : 0;
+        const dateB = b.createdAt ? b.createdAt.toMillis() : 0;
+        return dateB - dateA;
+      });
+
+      setProducts(items);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="shop-page">
@@ -40,28 +59,51 @@ const Shop = () => {
       </section>
 
       {/* Product Grid */}
-      <section className="section bg-light">
+      <section className="section bg-light" style={{ minHeight: '50vh' }}>
         <div className="container">
-          <div className="product-grid">
-            {products.map(product => (
-              <div key={product.id} className="product-card">
-                <div 
-                  className="product-image-placeholder"
-                  style={{ background: `linear-gradient(135deg, ${product.color}88, ${product.color})` }}
-                >
-                  <span className="stone-shape"></span>
+          {loading ? (
+            <p style={{ textAlign: 'center' }}>Loading authentic gemstones...</p>
+          ) : products.length === 0 ? (
+            <p style={{ textAlign: 'center' }}>More premium gemstones coming soon!</p>
+          ) : (
+            <div className="product-grid">
+              {products.map(product => (
+                <div key={product.id} className="product-card">
+                  {product.image ? (
+                    <div 
+                      className="product-image-container"
+                      style={{ 
+                        height: '250px', 
+                        width: '100%',
+                        backgroundImage: `url(${product.image})`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                        backgroundColor: '#f8f9fa',
+                        borderBottom: '1px solid #eee'
+                      }}
+                    />
+                  ) : (
+                    <div 
+                      className="product-image-placeholder"
+                      style={{ background: `linear-gradient(135deg, #10B98188, #10B981)` }} // fallback
+                    >
+                      <span className="stone-shape"></span>
+                    </div>
+                  )}
+                  
+                  <div className="product-content">
+                    <h3 className="product-title">{product.name}</h3>
+                    <div className="product-price">Starting from {product.price}</div>
+                    <p className="product-desc">{product.desc}</p>
+                    <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-full">
+                      Contact to Buy
+                    </a>
+                  </div>
                 </div>
-                <div className="product-content">
-                  <h3 className="product-title">{product.name}</h3>
-                  <div className="product-price">Starting from {product.price}</div>
-                  <p className="product-desc">{product.desc}</p>
-                  <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-full">
-                    Contact to Buy
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

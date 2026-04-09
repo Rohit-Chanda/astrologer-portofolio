@@ -4,45 +4,39 @@ import { doc, getDoc, setDoc, addDoc, collection, serverTimestamp } from 'fireba
 import { db } from '../../firebase';
 import './AdminStyles.css';
 
-const PostEditor = () => {
-  const { id } = useParams(); // If id exists, we are editing. Otherwise creating.
+const ProductEditor = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
-    title: '',
-    category: '',
-    excerpt: '',
-    imageUrl: '',
-    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-    author: 'Pandit Arjun Shastri'
+    name: '',
+    price: '',
+    desc: '',
+    url: '' // Will store the base64 image
   });
-  const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (id) {
-      loadPost(id);
+      loadProduct(id);
     }
   }, [id]);
 
-  const loadPost = async (postId) => {
+  const loadProduct = async (productId) => {
     setLoading(true);
     try {
-      const postSnap = await getDoc(doc(db, "posts", postId));
-      if (postSnap.exists()) {
-        const data = postSnap.data();
+      const snap = await getDoc(doc(db, "products", productId));
+      if (snap.exists()) {
+        const data = snap.data();
         setFormData({
-          title: data.title || '',
-          category: data.category || '',
-          excerpt: data.excerpt || '',
-          imageUrl: data.imageUrl || '',
-          date: data.date || '',
-          author: data.author || ''
+          name: data.name || '',
+          price: data.price || '',
+          desc: data.desc || '',
+          url: data.image || '' // mapping Firestore 'image' field to state 'url' for reuse logic
         });
-        setContent(data.content || '');
       }
     } catch (error) {
-      console.error("Error loading post:", error);
+      console.error("Error loading product:", error);
     } finally {
       setLoading(false);
     }
@@ -59,7 +53,7 @@ const PostEditor = () => {
       img.src = event.target.result;
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 800; // compress it so it fits perfectly in Firestore
+        const MAX_WIDTH = 800;
         let scaleSize = 1;
         
         if (img.width > MAX_WIDTH) {
@@ -72,9 +66,8 @@ const PostEditor = () => {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         
-        // compress to jpeg 0.7 quality to keep size under 1MB Firestore limit
         const base64String = canvas.toDataURL('image/jpeg', 0.7);
-        setFormData(prev => ({ ...prev, imageUrl: base64String }));
+        setFormData(prev => ({ ...prev, url: base64String }));
       };
     };
   };
@@ -88,23 +81,23 @@ const PostEditor = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const postData = {
-        ...formData,
-        content: content,
+      const itemData = {
+        name: formData.name,
+        price: formData.price,
+        desc: formData.desc,
+        image: formData.url, // Save back as 'image'
         updatedAt: serverTimestamp()
       };
 
       if (id) {
-        // Update existing
-        await setDoc(doc(db, "posts", id), postData, { merge: true });
+        await setDoc(doc(db, "products", id), itemData, { merge: true });
       } else {
-        // Create new
-        postData.createdAt = serverTimestamp();
-        await addDoc(collection(db, "posts"), postData);
+        itemData.createdAt = serverTimestamp();
+        await addDoc(collection(db, "products"), itemData);
       }
       navigate('/admin/dashboard');
     } catch (error) {
-      console.error("Error saving post:", error);
+      console.error("Error saving product:", error);
       alert("Failed to connect to Firebase. Check your configuration or rules.");
     } finally {
       setLoading(false);
@@ -114,88 +107,72 @@ const PostEditor = () => {
   return (
     <div className="container section">
       <div className="admin-header">
-        <h2>{id ? 'Edit Post' : 'Create New Post'}</h2>
+        <h2>{id ? 'Edit Gemstone' : 'Add New Gemstone'}</h2>
         <Link to="/admin/dashboard" className="btn btn-secondary">Cancel</Link>
       </div>
 
       <form onSubmit={handleSave} className="post-editor-form">
         <div style={{display: 'flex', gap: '24px', marginBottom: '24px'}}>
           <div className="form-group" style={{flex: 2}}>
-            <label>Post Title</label>
+            <label>Product Name</label>
             <input 
               type="text" 
-              name="title" 
-              value={formData.title} 
+              name="name" 
+              value={formData.name} 
               onChange={handleInputChange} 
-              placeholder="e.g. Understanding Saturn Return"
+              placeholder="e.g. Natural Ruby (Manik)"
               required 
             />
           </div>
           <div className="form-group" style={{flex: 1}}>
-            <label>Category (Tag)</label>
+            <label>Price</label>
             <input 
               type="text" 
-              name="category" 
-              value={formData.category} 
+              name="price" 
+              value={formData.price} 
               onChange={handleInputChange} 
-              placeholder="e.g. Astrology Basics"
+              placeholder="e.g. ₹25,000+"
               required 
             />
           </div>
         </div>
 
         <div className="form-group" style={{marginBottom: '24px'}}>
-          <label>Short Excerpt (shows on blog grid)</label>
+          <label>Short Description / Details</label>
           <input 
             type="text" 
-            name="excerpt" 
-            value={formData.excerpt} 
+            name="desc" 
+            value={formData.desc} 
             onChange={handleInputChange} 
-            placeholder="A brief 1-2 sentence description..."
+            placeholder="e.g. Boosts confidence, vitality, and leadership qualities. Associated with the Sun."
             required 
           />
         </div>
 
         <div className="form-group" style={{marginBottom: '24px'}}>
-          <label>Upload Blog Image from Computer</label>
+          <label>Gemstone Image</label>
           <div style={{ padding: '20px', border: '2px dashed #ccc', borderRadius: '8px', background: '#f9f9f9'}}>
             <input 
               type="file" 
               accept="image/*"
               onChange={handleImageUpload} 
+              required={!formData.url}
             />
-            {formData.imageUrl && formData.imageUrl.startsWith('data:image') && (
+            {formData.url && formData.url.startsWith('data:image') && (
               <div style={{marginTop: '16px'}}>
                 <p style={{marginBottom: '8px', fontSize: '14px', color: '#666'}}>Image Preview:</p>
-                <img src={formData.imageUrl} alt="Preview" style={{maxHeight: '150px', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}/>
-              </div>
-            )}
-            {formData.imageUrl && !formData.imageUrl.startsWith('data:image') && (
-               <div style={{marginTop: '16px'}}>
-                <p style={{marginBottom: '8px', fontSize: '14px', color: '#666'}}>Current Image URL:</p>
-                <img src={formData.imageUrl} alt="Preview" style={{maxHeight: '150px', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}/>
+                <img src={formData.url} alt="Preview" style={{maxHeight: '150px', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}/>
               </div>
             )}
           </div>
         </div>
 
-        <div className="form-group">
-          <label className="quill-label">Full Post Content (HTML supported)</label>
-          <textarea 
-            value={content} 
-            onChange={(e) => setContent(e.target.value)} 
-            className="editor-quill"
-            style={{ width: '100%', padding: '16px', border: '1px solid #ccc', borderRadius: '4px', fontFamily: 'inherit', fontSize: '1rem', resize: 'vertical' }}
-            placeholder="<p>Write your amazing astrological insights here...</p>"
-          />
-        </div>
-
         <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Processing...' : (id ? 'Update Post' : 'Publish Post')}
+          {loading ? 'Saving...' : (id ? 'Update Gemstone' : 'Save Gemstone')}
         </button>
       </form>
     </div>
   );
 };
 
-export default PostEditor;
+export default ProductEditor;

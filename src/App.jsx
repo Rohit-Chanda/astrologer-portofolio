@@ -14,6 +14,8 @@ import HallOfFame from './pages/HallOfFame';
 import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import PostEditor from './pages/admin/PostEditor';
+import HofEditor from './pages/admin/HofEditor';
+import ProductEditor from './pages/admin/ProductEditor';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import './App.css';
@@ -43,6 +45,18 @@ function App() {
             } />
             <Route path="/admin/edit-post/:id" element={
                <ProtectedRoute><PostEditor /></ProtectedRoute>
+            } />
+            <Route path="/admin/create-hof" element={
+              <ProtectedRoute><HofEditor /></ProtectedRoute>
+            } />
+            <Route path="/admin/edit-hof/:id" element={
+               <ProtectedRoute><HofEditor /></ProtectedRoute>
+            } />
+            <Route path="/admin/create-product" element={
+              <ProtectedRoute><ProductEditor /></ProtectedRoute>
+            } />
+            <Route path="/admin/edit-product/:id" element={
+               <ProtectedRoute><ProductEditor /></ProtectedRoute>
             } />
           </Routes>
         </main>
